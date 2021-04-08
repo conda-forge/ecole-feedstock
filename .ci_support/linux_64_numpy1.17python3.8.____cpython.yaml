@@ -13,7 +13,7 @@ docker_image:
 fmt:
 - '7'
 numpy:
-- '1.16'
+- '1.17'
 pin_run_as_build:
   python:
     min_pin: x.x

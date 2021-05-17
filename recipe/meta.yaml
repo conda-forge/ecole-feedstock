@@ -1,4 +1,4 @@
-{% set version = "0.6.0" %}
+{% set version = "0.6.1" %}
 
 package:
   name: ecole
@@ -6,7 +6,7 @@ package:
 
 source:
   url: https://github.com/ds4dm/ecole/archive/v{{ version }}.tar.gz
-  sha256: 2f1e0c92bbaaccada792000e4f4c47ab86439dfd1c4f236de538d6a555969312
+  sha256: ea41be85bdf7ed759eb54c2b250b2c86f619db7830f9e0ae9f4c28034b2d0b78
 
 build:
   number: 0
@@ -16,7 +16,7 @@ requirements:
   build:
     - {{ compiler('cxx') }}
     - cmake >=3.15
-    - make
+    - ninja
   host:
     - scip
     - fmt
@@ -24,6 +24,7 @@ requirements:
     - xsimd
     - python
     - pip
+    - scikit-build
     - pybind11
     - numpy >=1.11
     - xtensor-python
@@ -37,7 +38,7 @@ requirements:
 test:
   imports:
     - ecole
-    - ecole.core
+    - ecole.reward
     - ecole.environment
   source_files:
     - libecole/tests/data/

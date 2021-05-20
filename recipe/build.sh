@@ -10,6 +10,13 @@ if [[ "$target_platform" == osx-* ]]; then
 	export CXXFLAGS="${CXXFLAGS} -D_LIBCPP_DISABLE_AVAILABILITY"
 fi
 
-cmake -B build -S "${SRC_DIR}" -D CMAKE_BUILD_TYPE=Release -D Python_EXECUTABLE="${PYTHON}"
-cmake --build build --parallel ${CPU_COUNT}
-"${PYTHON}" -m pip install --no-deps build/python/
+# Remove install locations from Conda's CMAKE_ARGS. FIXME remove in 0.6.2
+OLD_CMAKE_ARGS="${CMAKE_ARGS}"
+CMAKE_ARGS=""
+for arg in $OLD_CMAKE_ARGS; do
+	if ! ( echo "${arg}" | grep -E -q -- '-D\s*CMAKE_INSTALL' ); then
+		CMAKE_ARGS+=" ${arg}"
+	fi
+done
+
+"${PYTHON}" -m pip install --no-deps --no-build-isolation .

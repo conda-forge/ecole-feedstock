@@ -45,6 +45,7 @@ test:
     - python/tests
   requires:
     - pytest
+    - pytest-helpers-namespace
     - pyscipopt
   commands:
     - python -m pytest --no-slow python/tests

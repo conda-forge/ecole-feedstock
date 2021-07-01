@@ -1,4 +1,4 @@
-{% set version = "0.6.2" %}
+{% set version = "0.7.0" %}
 
 package:
   name: ecole
@@ -6,10 +6,10 @@ package:
 
 source:
   url: https://github.com/ds4dm/ecole/archive/v{{ version }}.tar.gz
-  sha256: e2ec9c3229786c22a8736b8ad62b29a87aece9b9f5e004900968c0237668e89f
+  sha256: 1474d78bf73fd99a66f69d66d5f268263285669e9c85db4fe8b0227e82c880e5
 
 build:
-  number: 1
+  number: 0
   skip: true  # [win]
 
 requirements:
@@ -45,6 +45,7 @@ test:
     - python/tests
   requires:
     - pytest
+    - pytest-helpers-namespace
     - pyscipopt
   commands:
     - python -m pytest --no-slow python/tests

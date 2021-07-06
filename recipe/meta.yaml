@@ -6,10 +6,10 @@ package:
 
 source:
   url: https://github.com/ds4dm/ecole/archive/v{{ version }}.tar.gz
-  sha256: 965ca57f8964e177aa8429d83cb2be025aabf99bb94f4b0739b36ef6318e5e92
+  sha256: b3bd498aa09a7f47b28246ff3f6ea7fea9899621603a1e31b49d7d3e231d4b18
 
 build:
-  number: 0
+  number: 1
   skip: true  # [win]
 
 requirements:

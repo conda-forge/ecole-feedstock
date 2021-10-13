@@ -1,4 +1,4 @@
-{% set version = "0.7.1.dev0" %}
+{% set version = "0.8.0.dev0" %}
 
 package:
   name: ecole
@@ -6,7 +6,7 @@ package:
 
 source:
   url: https://github.com/ds4dm/ecole/archive/v{{ version }}.tar.gz
-  sha256: 5b3782144cacbaee0b5114311cae850d2a8a6a419a927062b7f3e8e468a49a12
+  sha256: f44b9895e7ad3221c966acc3082ea004d59083502228e89e05213d801ecfcae6
 
 build:
   number: 0
@@ -28,27 +28,76 @@ requirements:
     - pybind11
     - numpy >=1.11
     - xtensor-python
-  run:
-    - python
-    - numpy
-    - __osx >={{ MACOSX_DEPLOYMENT_TARGET|default("10.9") }}  # [osx and x86_64]
-  run_constrained:
-    - pyscipopt >=3.0.1
 
-test:
-  imports:
-    - ecole
-    - ecole.reward
-    - ecole.environment
-  source_files:
-    - libecole/tests/data/
-    - python/tests
-  requires:
-    - pytest
-    - pytest-helpers-namespace
-    - pyscipopt
-  commands:
-    - python -m pytest --no-slow python/tests
+outputs:
+
+  - name: libecole
+    version: "{{ version }}"
+    build:
+      run_exports:
+        - {{ pin_subpackage('libecole', exact=True) }}
+    requirements:
+      build:
+        - {{ compiler('cxx') }}
+        - cmake >=3.15
+        - ninja
+      host:
+        - scip
+        - fmt
+        - xtensor
+        - xsimd
+      run:
+        - __osx >={{ MACOSX_DEPLOYMENT_TARGET|default("10.9") }}  # [osx and x86_64]
+      run_constrained:
+        - pin_compatible('xtensor')
+    files:
+      - "include/ecole"
+      - "lib/libecole*"
+      - "lib/cmake/Ecole"
+    test:
+      script: test-libecole.sh
+      source_files:
+        - "examples/libecole/"
+      requires:
+        - {{ compiler('cxx') }}
+        - cmake >=3.15
+        - ninja
+        - xsimd
+        - xtensor
+
+  - name: ecole
+    version: "{{ version }}"
+    requirements:
+      build:
+        - {{ compiler('cxx') }}
+        - cmake >=3.15
+        - ninja
+      host:
+        - scip
+        - fmt
+        - xtensor
+        - xsimd
+        - python
+        - pip
+        - scikit-build
+        - pybind11
+        - numpy >=1.11
+        - xtensor-python
+      run:
+        - {{ pin_subpackage('libecole', exact=True) }}
+        - __osx >={{ MACOSX_DEPLOYMENT_TARGET|default("10.9") }}  # [osx and x86_64]
+        - python
+        - numpy
+      run_constrained:
+        - pyscipopt >=3.0.1
+    script: install_ecole.sh
+    test:
+      imports:
+        - ecole
+        - ecole.reward
+        - ecole.environment
+      commands:
+        - "python -c 'import ecole; next(ecole.instance.SetCoverGenerator())'"
 
 about:
   home: https://www.ecole.ai/

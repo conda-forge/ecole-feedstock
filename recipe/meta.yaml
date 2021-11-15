@@ -25,7 +25,7 @@ requirements:
     - python
     - pip
     - scikit-build
-    - pybind11
+    - pybind11 >=2.7
     - numpy >=1.11
     - xtensor-python
 
@@ -80,7 +80,7 @@ outputs:
         - python
         - pip
         - scikit-build
-        - pybind11
+        - pybind11 >=2.7
         - numpy >=1.11
         - xtensor-python
       run:

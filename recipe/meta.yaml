@@ -1,4 +1,4 @@
-{% set version = "0.8.0.dev0" %}
+{% set version = "0.8.0.dev3" %}
 
 package:
   name: ecole
@@ -6,7 +6,7 @@ package:
 
 source:
   url: https://github.com/ds4dm/ecole/archive/v{{ version }}.tar.gz
-  sha256: f44b9895e7ad3221c966acc3082ea004d59083502228e89e05213d801ecfcae6
+  sha256: 79e2bb7de32c17b0f804e2b374a51d931854abf1c2cecf1e07cdedaffd1600c7
 
 build:
   number: 0
@@ -25,7 +25,7 @@ requirements:
     - python
     - pip
     - scikit-build
-    - pybind11
+    - pybind11 >=2.7
     - numpy >=1.11
     - xtensor-python
 
@@ -80,7 +80,7 @@ outputs:
         - python
         - pip
         - scikit-build
-        - pybind11
+        - pybind11 >=2.7
         - numpy >=1.11
         - xtensor-python
       run:

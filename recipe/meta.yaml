@@ -1,4 +1,4 @@
-{% set version = "0.8.0.dev3" %}
+{% set version = "0.8.0.dev5" %}
 
 package:
   name: ecole
@@ -6,7 +6,7 @@ package:
 
 source:
   url: https://github.com/ds4dm/ecole/archive/v{{ version }}.tar.gz
-  sha256: 79e2bb7de32c17b0f804e2b374a51d931854abf1c2cecf1e07cdedaffd1600c7
+  sha256: 84771c35a2855205eedf783d0c6cdaab8c48a6ab83347f48e9d0fc605649ba90
 
 build:
   number: 0
@@ -49,6 +49,7 @@ outputs:
       run:
         - __osx >={{ MACOSX_DEPLOYMENT_TARGET|default("10.9") }}  # [osx and x86_64]
       run_constrained:
+        - pin_compatible('xsimd')
         - pin_compatible('xtensor')
     files:
       - "include/ecole"
@@ -89,6 +90,7 @@ outputs:
         - python
         - numpy
       run_constrained:
+        - pin_compatible('xtensor-python')
         - pyscipopt >=3.0.1
     script: install_ecole.sh
     test:

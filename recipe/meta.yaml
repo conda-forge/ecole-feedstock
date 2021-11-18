@@ -1,4 +1,4 @@
-{% set version = "0.8.0.dev5" %}
+{% set version = "0.8.0.dev6" %}
 
 package:
   name: ecole
@@ -6,7 +6,7 @@ package:
 
 source:
   url: https://github.com/ds4dm/ecole/archive/v{{ version }}.tar.gz
-  sha256: 84771c35a2855205eedf783d0c6cdaab8c48a6ab83347f48e9d0fc605649ba90
+  sha256: 4a321430d695b4e8a09b0297307057220baf10719522e9c167be7652045fc282
 
 build:
   number: 0

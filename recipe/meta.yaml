@@ -17,6 +17,9 @@ requirements:
     - {{ compiler('cxx') }}
     - cmake >=3.15
     - ninja
+    # FIXME We don't need both Ninja and Make but somehow scikit-build does not find ninja.
+    # Try setting scikit-build `--generator` through pip `--install-option`...
+    - make
   host:
     - scip
     - fmt
@@ -73,6 +76,7 @@ outputs:
         - {{ compiler('cxx') }}
         - cmake >=3.15
         - ninja
+        - make
       host:
         - scip
         - fmt

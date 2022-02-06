@@ -10,4 +10,16 @@ if [[ "$target_platform" == osx-* ]]; then
 	export CXXFLAGS="${CXXFLAGS} -D_LIBCPP_DISABLE_AVAILABILITY"
 fi
 
-"${PYTHON}" -m pip install -vvv --no-deps --no-build-isolation .
+# Install libecole (without extension) independently
+cmake -B libecole-build -G Ninja \
+	${CMAKE_ARGS} \
+	-D CMAKE_BUILD_TYPE=Release \
+	-D BUILD_SHARED_LIBS=ON \
+	-D ECOLE_BUILD_PY_EXT=OFF
+cmake --build libecole-build --parallel ${CPU_COUNT}
+cmake --install libecole-build --prefix "${PREFIX}"
+
+# Install the Python extension using the pre-install libecole
+# Install locally and then use a script to move file, as we could not find a way to select
+# the files in the outputs.files section of meta.yaml (dynamic Python version in path).
+"${PYTHON}" -m pip install -vvv --no-deps --no-build-isolation --prefix ecole-install .

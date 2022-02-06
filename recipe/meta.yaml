@@ -1,4 +1,4 @@
-{% set version = "0.8.0.dev6" %}
+{% set version = "0.8.0rc0" %}
 
 package:
   name: ecole
@@ -6,7 +6,7 @@ package:
 
 source:
   url: https://github.com/ds4dm/ecole/archive/v{{ version }}.tar.gz
-  sha256: 4a321430d695b4e8a09b0297307057220baf10719522e9c167be7652045fc282
+  sha256: 6d0747f35704b2c815d8b64a46b23cae663dc850184c174f3a7fa3f98579a5f8
 
 build:
   number: 0
@@ -17,6 +17,9 @@ requirements:
     - {{ compiler('cxx') }}
     - cmake >=3.15
     - ninja
+    # FIXME We don't need both Ninja and Make but somehow scikit-build does not find ninja.
+    # Try setting scikit-build `--generator` through pip `--install-option`...
+    - make
   host:
     - scip
     - fmt
@@ -73,6 +76,7 @@ outputs:
         - {{ compiler('cxx') }}
         - cmake >=3.15
         - ninja
+        - make
       host:
         - scip
         - fmt

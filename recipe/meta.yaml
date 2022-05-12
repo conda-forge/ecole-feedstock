@@ -1,4 +1,4 @@
-{% set version = "0.8.0" %}
+{% set version = "0.8.1" %}
 
 package:
   name: ecole
@@ -6,10 +6,10 @@ package:
 
 source:
   url: https://github.com/ds4dm/ecole/archive/v{{ version }}.tar.gz
-  sha256: b860206a7ce37e708eb6426fea9e44fd037e410335ed109b22ad8529660988de
+  sha256: 952f2b74fc44fac2d6a0a3156470045f77d31de2e584f27f2ae39259d96befea
 
 build:
-  number: 1
+  number: 0
   skip: true  # [win]
 
 requirements:
@@ -35,7 +35,7 @@ requirements:
 outputs:
 
   - name: libecole
-    version: "{{ version }}"
+    version: {{ version }}
     build:
       run_exports:
         - {{ pin_subpackage('libecole', exact=True) }}
@@ -55,13 +55,13 @@ outputs:
         - pin_compatible('xsimd')
         - pin_compatible('xtensor')
     files:
-      - "include/ecole"
-      - "lib/libecole*"
-      - "lib/cmake/Ecole"
+      - include/ecole
+      - lib/libecole*
+      - lib/cmake/Ecole
     test:
       script: test-libecole.sh
       source_files:
-        - "examples/libecole/"
+        - examples/libecole/
       requires:
         - {{ compiler('cxx') }}
         - cmake >=3.15
@@ -70,7 +70,7 @@ outputs:
         - xtensor
 
   - name: ecole
-    version: "{{ version }}"
+    version: {{ version }}
     requirements:
       build:
         - {{ compiler('cxx') }}
@@ -103,7 +103,7 @@ outputs:
         - ecole.reward
         - ecole.environment
       commands:
-        - "python -c 'import ecole; next(ecole.instance.SetCoverGenerator())'"
+        - python -c 'import ecole; next(ecole.instance.SetCoverGenerator())'
 
 about:
   home: https://www.ecole.ai/

@@ -9,7 +9,7 @@ source:
   sha256: 952f2b74fc44fac2d6a0a3156470045f77d31de2e584f27f2ae39259d96befea
 
 build:
-  number: 2
+  number: 3
   skip: true  # [win]
 
 requirements:
@@ -20,6 +20,8 @@ requirements:
     # FIXME We don't need both Ninja and Make but somehow scikit-build does not find ninja.
     # Try setting scikit-build `--generator` through pip `--install-option`...
     - make
+    - python                              # [build_platform != target_platform]
+    - cross-python_{{ target_platform }}  # [build_platform != target_platform]
   host:
     - scip
     - fmt

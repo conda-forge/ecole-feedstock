@@ -9,7 +9,7 @@ source:
   sha256: 952f2b74fc44fac2d6a0a3156470045f77d31de2e584f27f2ae39259d96befea
 
 build:
-  number: 1
+  number: 2
   skip: true  # [win]
 
 requirements:
@@ -24,7 +24,9 @@ requirements:
     - scip
     - fmt
     - xtensor
-    - xsimd
+    # Waiting for an xsimd=10 compatible release of xtensor
+    # https://github.com/xtensor-stack/xsimd/issues/810
+    - xsimd <9.0,>=8.0
     - python
     - pip
     - scikit-build
@@ -48,7 +50,7 @@ outputs:
         - scip
         - fmt
         - xtensor
-        - xsimd
+        - xsimd <9.0,>=8.0
       run:
         - __osx >={{ MACOSX_DEPLOYMENT_TARGET|default("10.9") }}  # [osx and x86_64]
       run_constrained:
@@ -66,7 +68,7 @@ outputs:
         - {{ compiler('cxx') }}
         - cmake >=3.15
         - ninja
-        - xsimd
+        - xsimd <9.0,>=8.0
         - xtensor
 
   - name: ecole
@@ -81,7 +83,7 @@ outputs:
         - scip
         - fmt
         - xtensor
-        - xsimd
+        - xsimd <9.0,>=8.0
         - python
         - pip
         - scikit-build

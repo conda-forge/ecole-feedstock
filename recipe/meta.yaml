@@ -24,7 +24,9 @@ requirements:
     - scip
     - fmt
     - xtensor
-    - xsimd
+    # Waiting for an xsimd=10 compatible release of xtensor
+    # https://github.com/xtensor-stack/xsimd/issues/810
+    - xsimd=8.0
     - python
     - pip
     - scikit-build

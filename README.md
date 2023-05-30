@@ -1,11 +1,11 @@
-About ecole
-===========
+About ecole-feedstock
+=====================
+
+Feedstock license: [BSD-3-Clause](https://github.com/conda-forge/ecole-feedstock/blob/main/LICENSE.txt)
 
 Home: https://www.ecole.ai/
 
 Package license: BSD-3-Clause
-
-Feedstock license: [BSD-3-Clause](https://github.com/conda-forge/ecole-feedstock/blob/main/LICENSE.txt)
 
 Summary: Extensible Combinatorial Optimization Learning Environments
 

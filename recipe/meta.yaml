@@ -20,6 +20,8 @@ requirements:
     # FIXME We don't need both Ninja and Make but somehow scikit-build does not find ninja.
     # Try setting scikit-build `--generator` through pip `--install-option`...
     - make
+    - python                              # [build_platform != target_platform]
+    - cross-python_{{ target_platform }}  # [build_platform != target_platform]
   host:
     - scip
     - fmt

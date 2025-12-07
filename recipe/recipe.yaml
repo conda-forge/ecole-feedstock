@@ -28,8 +28,8 @@ outputs:
       host:
         - scip >=8.0,<9.0
         - fmt
-        - xtensor
-        - xsimd =10.0
+        - xtensor =0.24.6
+        - xsimd =8.1.0
       run_exports:
         - ${{ pin_subpackage('libecole', exact=True) }}
       run_constraints:
@@ -46,7 +46,7 @@ outputs:
             - ${{ stdlib("c") }}
             - cmake >=3.15
             - ninja
-            - xsimd =10.0
+            - xsimd
             - xtensor
 
   - package:
@@ -62,7 +62,7 @@ outputs:
       host:
         - ${{ pin_subpackage('libecole', exact=True) }}
         - xtensor
-        - xsimd =10.0
+        - xsimd
         - python
         - pip
         - scikit-build
@@ -95,4 +95,3 @@ extra:
   recipe-maintainers:
     - AntoinePrv
     - gasse
-

@@ -22,6 +22,7 @@ outputs:
     requirements:
       build:
         - ${{ compiler('cxx') }}
+        - ${{ stdlib("c") }}
         - cmake >=3.15
         - ninja
       host:
@@ -45,6 +46,7 @@ outputs:
         requirements:
           run:
             - ${{ compiler('cxx') }}
+            - ${{ stdlib("c") }}
             - cmake >=3.15
             - ninja
             - xsimd =10.0
@@ -56,6 +58,7 @@ outputs:
     requirements:
       build:
         - ${{ compiler('cxx') }}
+        - ${{ stdlib("c") }}
         - cmake >=3.15
         - ninja
         - make

@@ -1,6 +1,2 @@
 c_stdlib_version:              # [osx and x86_64]
   - 10.12                      # [osx and x86_64]
-# Temporary fix for uncompatible versions
-python:
-  - 3.10.* *_cpython
-  - 3.11.* *_cpython

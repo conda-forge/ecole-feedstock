@@ -1,0 +1,99 @@
+schema_version: 1
+
+context:
+  version: 0.8.1
+
+recipe:
+  name: ecole
+  version: ${{ version }}
+
+source:
+  url: https://github.com/ds4dm/ecole/archive/v${{ version }}.tar.gz
+  sha256: 952f2b74fc44fac2d6a0a3156470045f77d31de2e584f27f2ae39259d96befea
+
+build:
+  number: 4
+  skip: win or match(python, ">=3.12")
+
+outputs:
+  - package:
+      name: libecole
+      version: ${{ version }}
+    requirements:
+      build:
+        - ${{ compiler('cxx') }}
+        - ${{ stdlib("c") }}
+        - cmake >=3.15
+        - ninja
+      host:
+        - range-v3
+        - robin_hood
+        - scip >=8.0,<9.0
+        - fmt
+        - xtensor =0.24.6
+        - xsimd =8.1.0
+      run_exports:
+        - ${{ pin_subpackage('libecole', exact=True) }}
+      run_constraints:
+        - ${{ pin_compatible('xsimd') }}
+        - ${{ pin_compatible('xtensor') }}
+    tests:
+      - script: test-libecole.sh
+        files:
+          source:
+            - examples/libecole/
+        requirements:
+          run:
+            - ${{ compiler('cxx') }}
+            - ${{ stdlib("c") }}
+            - cmake >=3.15
+            - ninja
+            - xsimd
+            - xtensor
+
+  - package:
+      name: ecole
+      version: ${{ version }}
+    requirements:
+      build:
+        - ${{ compiler('cxx') }}
+        - ${{ stdlib("c") }}
+        - cmake >=3.15
+        - ninja
+        - make
+      host:
+        - ${{ pin_subpackage('libecole', exact=True) }}
+        - xtensor
+        - xsimd
+        - python
+        - pip
+        - scikit-build
+        - pybind11 >=2.7,<3.0
+        - numpy >=1.11
+        - xtensor-python
+      run:
+        - python
+        - numpy
+      run_constraints:
+        - ${{ pin_compatible('xtensor-python') }}
+        - pyscipopt >=3.0.1
+    tests:
+      - python:
+          imports:
+            - ecole
+            - ecole.reward
+            - ecole.environment
+      - script:
+          - python -c 'import ecole; next(ecole.instance.SetCoverGenerator())'
+
+about:
+  license: BSD-3-Clause
+  license_file: LICENSE
+  summary: Extensible Combinatorial Optimization Learning Environments
+  homepage: https://www.ecole.ai/
+  documentation: https://doc.ecole.ai/
+
+extra:
+  recipe-maintainers:
+    - AntoinePrv
+    - gasse

@@ -30,9 +30,6 @@ outputs:
         - fmt
         - xtensor
         - xsimd =10.0
-      run:
-        - if: osx and x86_64
-          then: __osx >=${{ MACOSX_DEPLOYMENT_TARGET|default("10.9") }}
       run_exports:
         - ${{ pin_subpackage('libecole', exact=True) }}
       run_constraints:
@@ -73,8 +70,6 @@ outputs:
         - numpy >=1.11
         - xtensor-python
       run:
-        - if: osx and x86_64
-          then: __osx >=${{ MACOSX_DEPLOYMENT_TARGET|default("10.9") }}
         - python
         - numpy
       run_constraints:

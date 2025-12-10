@@ -64,6 +64,11 @@ outputs:
         - cmake >=3.15
         - ninja
         - make
+        - if: build_platform != target_platform
+          then:
+            - python
+            - cross-python_${{ target_platform }}
+            - pybind11 >=2.7,<3.0
       host:
         - ${{ pin_subpackage('libecole', exact=True) }}
         - xtensor

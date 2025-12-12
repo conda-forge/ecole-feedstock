@@ -69,7 +69,7 @@ outputs:
             - python
             - cross-python_${{ target_platform }}
             - pybind11 >=2.7,<3.0
-            - numpy
+            - numpy >=1.11,<2.0
             - scikit-build
       host:
         - ${{ pin_subpackage('libecole', exact=True) }}
@@ -79,11 +79,11 @@ outputs:
         - pip
         - scikit-build
         - pybind11 >=2.7,<3.0
-        - numpy >=1.11
+        - numpy >=1.11,<2.0
         - xtensor-python
       run:
         - python
-        - numpy
+        - numpy >=1.11,<2.0
       run_constraints:
         - ${{ pin_compatible('xtensor-python') }}
         - pyscipopt >=3.0.1

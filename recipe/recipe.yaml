@@ -2,6 +2,8 @@ schema_version: 1
 
 context:
   version: 0.8.1
+  xsimd_version: ${{ "=10.0.0" if osx and arm64 else "=8.1.0" }}
+  xtensor_version: ${{ "" if osx and arm64 else "=0.24.6" }}
 
 recipe:
   name: ecole
@@ -12,7 +14,8 @@ source:
   sha256: 952f2b74fc44fac2d6a0a3156470045f77d31de2e584f27f2ae39259d96befea
 
 build:
-  number: 4
+  number: 6
+  # Not available for higher version due to xtensor-python pin
   skip: win or match(python, ">=3.12")
 
 outputs:
@@ -30,8 +33,8 @@ outputs:
         - robin_hood
         - scip >=8.0,<9.0
         - fmt
-        - xtensor =0.24.6
-        - xsimd =8.1.0
+        - xtensor ${{ xtensor_version }}
+        - xsimd ${{ xsimd_version }}
       run_exports:
         - ${{ pin_subpackage('libecole', exact=True) }}
       run_constraints:
@@ -48,7 +51,7 @@ outputs:
             - ${{ stdlib("c") }}
             - cmake >=3.15
             - ninja
-            - xsimd
+            - xsimd ${{ xsimd_version }}
             - xtensor
 
   - package:
@@ -61,19 +64,26 @@ outputs:
         - cmake >=3.15
         - ninja
         - make
+        - if: build_platform != target_platform
+          then:
+            - python
+            - cross-python_${{ target_platform }}
+            - pybind11 >=2.7,<3.0
+            - numpy >=1.11,<2.0
+            - scikit-build
       host:
         - ${{ pin_subpackage('libecole', exact=True) }}
         - xtensor
-        - xsimd
+        - xsimd ${{ xsimd_version }}
         - python
         - pip
         - scikit-build
         - pybind11 >=2.7,<3.0
-        - numpy >=1.11
+        - numpy >=1.11,<2.0
         - xtensor-python
       run:
         - python
-        - numpy
+        - numpy >=1.11,<2.0
       run_constraints:
         - ${{ pin_compatible('xtensor-python') }}
         - pyscipopt >=3.0.1

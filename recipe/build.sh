@@ -8,17 +8,19 @@ set -o nounset
 # For using C++17 symbols on Apple before they are officially released
 if [[ "$target_platform" == osx-* ]]; then
 	export CXXFLAGS="${CXXFLAGS} -D_LIBCPP_DISABLE_AVAILABILITY"
-
-	# Backpor clang 19.0 bug fix
-	# https://github.com/xtensor-stack/xtensor/pull/2833
-	sed -i '' \
-'s|#if defined(__GNUC__) && __GNUC__ > 6 && !defined(__clang__) && __cplusplus >= 201703L|#ifdef __cpp_template_template_args|' \
-"${PREFIX}/include/xtensor/xutils.hpp"
-
 fi
 
 # Install libecole (without extension) independently
 if [[ "${PKG_NAME}" == "libecole" ]]; then
+
+	if [[ "$target_platform" == osx-* ]]; then
+		# Backport clang 19.0 bug fix
+		# https://github.com/xtensor-stack/xtensor/pull/2833
+		sed -i '' \
+	's|#if defined(__GNUC__) && __GNUC__ > 6 && !defined(__clang__) && __cplusplus >= 201703L|#ifdef __cpp_template_template_args|' \
+	"${PREFIX}/include/xtensor/xutils.hpp"
+
+	fi
 
 	cmake -B libecole-build -G Ninja \
 		${CMAKE_ARGS} \
@@ -35,6 +37,16 @@ fi
 # Install locally and then use a script to move file, as we could not find a way to select
 # the files in the outputs.files section of meta.yaml (dynamic Python version in path).
 if [[ "${PKG_NAME}" == "ecole" ]]; then
+
+	if [[ "${build_platform}" != "${target_platform}" ]]; then
+		Python_INCLUDE_DIR="$(python -c 'import sysconfig; print(sysconfig.get_path("include"))')"
+		CMAKE_ARGS="${CMAKE_ARGS} -DPython_EXECUTABLE:PATH=${PYTHON}"
+		CMAKE_ARGS="${CMAKE_ARGS} -DPython_INCLUDE_DIR:PATH=${Python_INCLUDE_DIR}"
+		CMAKE_ARGS="${CMAKE_ARGS} -DPython3_EXECUTABLE:PATH=${PYTHON}"
+		CMAKE_ARGS="${CMAKE_ARGS} -DPython3_INCLUDE_DIR:PATH=${Python_INCLUDE_DIR}"
+		export CMAKE_ARGS
+	fi
+
 
 	"${PYTHON}" -m pip install -vvv --no-deps --no-build-isolation --prefix ecole-install .
 

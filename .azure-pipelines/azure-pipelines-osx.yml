@@ -11,17 +11,11 @@ jobs:
       osx_64_scip10:
         CONFIG: osx_64_scip10
         UPLOAD_PACKAGES: 'True'
-      osx_64_scip8:
-        CONFIG: osx_64_scip8
-        UPLOAD_PACKAGES: 'True'
       osx_64_scip9:
         CONFIG: osx_64_scip9
         UPLOAD_PACKAGES: 'True'
       osx_arm64_scip10:
         CONFIG: osx_arm64_scip10
-        UPLOAD_PACKAGES: 'True'
-      osx_arm64_scip8:
-        CONFIG: osx_arm64_scip8
         UPLOAD_PACKAGES: 'True'
       osx_arm64_scip9:
         CONFIG: osx_arm64_scip9

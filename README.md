@@ -36,13 +36,6 @@ Current build status
                 </a>
               </td>
             </tr><tr>
-              <td>linux_64_scip8</td>
-              <td>
-                <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=12176&branchName=main">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/ecole-feedstock?branchName=main&jobName=linux&configuration=linux%20linux_64_scip8" alt="variant">
-                </a>
-              </td>
-            </tr><tr>
               <td>linux_64_scip9</td>
               <td>
                 <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=12176&branchName=main">
@@ -64,13 +57,6 @@ Current build status
                 </a>
               </td>
             </tr><tr>
-              <td>osx_64_scip8</td>
-              <td>
-                <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=12176&branchName=main">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/ecole-feedstock?branchName=main&jobName=osx&configuration=osx%20osx_64_scip8" alt="variant">
-                </a>
-              </td>
-            </tr><tr>
               <td>osx_64_scip9</td>
               <td>
                 <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=12176&branchName=main">
@@ -82,13 +68,6 @@ Current build status
               <td>
                 <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=12176&branchName=main">
                   <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/ecole-feedstock?branchName=main&jobName=osx&configuration=osx%20osx_arm64_scip10" alt="variant">
-                </a>
-              </td>
-            </tr><tr>
-              <td>osx_arm64_scip8</td>
-              <td>
-                <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=12176&branchName=main">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/ecole-feedstock?branchName=main&jobName=osx&configuration=osx%20osx_arm64_scip8" alt="variant">
                 </a>
               </td>
             </tr><tr>

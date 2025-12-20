@@ -23,14 +23,10 @@ if [[ "${PKG_NAME}" == "libecole" ]]; then
 
 fi
 
-
-# Install the Python extension using the pre-install libecole
-# Install locally and then use a script to move file, as we could not find a way to select
-# the files in the outputs.files section of meta.yaml (dynamic Python version in path).
+# Install ecole Python binding, finding libecole already installed
 if [[ "${PKG_NAME}" == "ecole" ]]; then
-		export CMAKE_ARGS="${CMAKE_ARGS} -DECOLE_BUILD_PY_EXT=Yes -DECOLE_BUILD_LIB=No"
-	"${PYTHON}" -m pip install -vvv --no-deps --no-build-isolation --prefix ecole-install .
 
-	mkdir -p "${PREFIX}"  # Make cp predictable
-	cp -a ecole-install/* "${PREFIX}"
+	export CMAKE_ARGS="${CMAKE_ARGS} -DECOLE_BUILD_PY_EXT=Yes -DECOLE_BUILD_LIB=No"
+	"${PYTHON}" -m pip install -vvv --no-deps --no-build-isolation .
+
 fi

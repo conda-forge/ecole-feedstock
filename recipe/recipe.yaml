@@ -13,8 +13,6 @@ source:
 
 build:
   number: 0
-  # Not available for higher version due to xtensor-python pin
-  skip: win or match(python, ">=3.12")
 
 outputs:
   - package:

@@ -28,7 +28,7 @@ outputs:
       host:
         - range-v3
         - robin_hood
-        - scip >=8.0,<9.0
+        - scip
         - fmt
         - xtensor
         - xsimd

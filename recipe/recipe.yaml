@@ -1,9 +1,7 @@
 schema_version: 1
 
 context:
-  version: 0.8.1
-  xsimd_version: ${{ "=10.0.0" if osx and arm64 else "=8.1.0" }}
-  xtensor_version: ${{ "" if osx and arm64 else "=0.24.6" }}
+  version: 0.8.2.dev0
 
 recipe:
   name: ecole
@@ -11,10 +9,10 @@ recipe:
 
 source:
   url: https://github.com/ds4dm/ecole/archive/v${{ version }}.tar.gz
-  sha256: 952f2b74fc44fac2d6a0a3156470045f77d31de2e584f27f2ae39259d96befea
+  sha256: b7c537efcfe3157a43fdfc4120575b4632b225105476925a25f354bf44e6f627
 
 build:
-  number: 6
+  number: 0
   # Not available for higher version due to xtensor-python pin
   skip: win or match(python, ">=3.12")
 
@@ -33,8 +31,13 @@ outputs:
         - robin_hood
         - scip >=8.0,<9.0
         - fmt
-        - xtensor ${{ xtensor_version }}
-        - xsimd ${{ xsimd_version }}
+        - xtensor
+        - xsimd
+        # Only meant to create a compatible build with ecole python bindings
+        - xtensor-python
+      ignore_run_exports:
+        from_package:
+          - xtensor-python
       run_exports:
         - ${{ pin_subpackage('libecole', exact=True) }}
       run_constraints:
@@ -51,7 +54,7 @@ outputs:
             - ${{ stdlib("c") }}
             - cmake >=3.15
             - ninja
-            - xsimd ${{ xsimd_version }}
+            - xsimd
             - xtensor
 
   - package:
@@ -68,22 +71,22 @@ outputs:
           then:
             - python
             - cross-python_${{ target_platform }}
-            - pybind11 >=2.7,<3.0
-            - numpy >=1.11,<2.0
-            - scikit-build
+            - pybind11
+            - numpy
+            - scikit-build-core
       host:
         - ${{ pin_subpackage('libecole', exact=True) }}
         - xtensor
-        - xsimd ${{ xsimd_version }}
+        - xsimd
         - python
         - pip
-        - scikit-build
-        - pybind11 >=2.7,<3.0
-        - numpy >=1.11,<2.0
+        - scikit-build-core
+        - pybind11
+        - numpy
         - xtensor-python
       run:
         - python
-        - numpy >=1.11,<2.0
+        - numpy
       run_constraints:
         - ${{ pin_compatible('xtensor-python') }}
         - pyscipopt >=3.0.1

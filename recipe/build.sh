@@ -13,15 +13,6 @@ fi
 # Install libecole (without extension) independently
 if [[ "${PKG_NAME}" == "libecole" ]]; then
 
-	if [[ "$target_platform" == osx-* ]]; then
-		# Backport clang 19.0 bug fix
-		# https://github.com/xtensor-stack/xtensor/pull/2833
-		sed -i '' \
-	's|#if defined(__GNUC__) && __GNUC__ > 6 && !defined(__clang__) && __cplusplus >= 201703L|#ifdef __cpp_template_template_args|' \
-	"${PREFIX}/include/xtensor/xutils.hpp"
-
-	fi
-
 	cmake -B libecole-build -G Ninja \
 		${CMAKE_ARGS} \
 		-D CMAKE_BUILD_TYPE=Release \
@@ -32,24 +23,10 @@ if [[ "${PKG_NAME}" == "libecole" ]]; then
 
 fi
 
-
-# Install the Python extension using the pre-install libecole
-# Install locally and then use a script to move file, as we could not find a way to select
-# the files in the outputs.files section of meta.yaml (dynamic Python version in path).
+# Install ecole Python binding, finding libecole already installed
 if [[ "${PKG_NAME}" == "ecole" ]]; then
 
-	if [[ "${build_platform}" != "${target_platform}" ]]; then
-		Python_INCLUDE_DIR="$(python -c 'import sysconfig; print(sysconfig.get_path("include"))')"
-		CMAKE_ARGS="${CMAKE_ARGS} -DPython_EXECUTABLE:PATH=${PYTHON}"
-		CMAKE_ARGS="${CMAKE_ARGS} -DPython_INCLUDE_DIR:PATH=${Python_INCLUDE_DIR}"
-		CMAKE_ARGS="${CMAKE_ARGS} -DPython3_EXECUTABLE:PATH=${PYTHON}"
-		CMAKE_ARGS="${CMAKE_ARGS} -DPython3_INCLUDE_DIR:PATH=${Python_INCLUDE_DIR}"
-		export CMAKE_ARGS
-	fi
+	export CMAKE_ARGS="${CMAKE_ARGS} -DECOLE_BUILD_PY_EXT=Yes -DECOLE_BUILD_LIB=No"
+	"${PYTHON}" -m pip install -vvv --no-deps --no-build-isolation .
 
-
-	"${PYTHON}" -m pip install -vvv --no-deps --no-build-isolation --prefix ecole-install .
-
-	mkdir -p "${PREFIX}"  # Make cp predictable
-	cp -a ecole-install/* "${PREFIX}"
 fi

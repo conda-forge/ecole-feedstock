@@ -33,11 +33,6 @@ outputs:
         - fmt
         - xtensor
         - xsimd
-        # Only meant to create a compatible build with ecole python bindings
-        - xtensor-python
-      ignore_run_exports:
-        from_package:
-          - xtensor-python
       run_exports:
         - ${{ pin_subpackage('libecole', exact=True) }}
       run_constraints:

@@ -1,2 +1,6 @@
 c_stdlib_version:              # [osx and x86_64]
   - 10.12                      # [osx and x86_64]
+scip:
+  - 8
+  - 9
+  - 10

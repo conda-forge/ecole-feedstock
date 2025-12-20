@@ -1,9 +1,7 @@
 schema_version: 1
 
 context:
-  version: 0.8.1
-  xsimd_version: ${{ "=10.0.0" if osx and arm64 else "=8.1.0" }}
-  xtensor_version: ${{ "" if osx and arm64 else "=0.24.6" }}
+  version: 0.8.2
 
 recipe:
   name: ecole
@@ -11,12 +9,11 @@ recipe:
 
 source:
   url: https://github.com/ds4dm/ecole/archive/v${{ version }}.tar.gz
-  sha256: 952f2b74fc44fac2d6a0a3156470045f77d31de2e584f27f2ae39259d96befea
+  sha256: f47f1cbc5bc43c904327f2a5a536367f0ba22f89e73e300b1d20ebac630771db
 
 build:
-  number: 6
-  # Not available for higher version due to xtensor-python pin
-  skip: win or match(python, ">=3.12")
+  number: 0
+  skip: win
 
 outputs:
   - package:
@@ -31,16 +28,21 @@ outputs:
       host:
         - range-v3
         - robin_hood
-        - scip >=8.0,<9.0
+        - scip
         - fmt
-        - xtensor ${{ xtensor_version }}
-        - xsimd ${{ xsimd_version }}
+        - xtensor
+        - xsimd
       run_exports:
         - ${{ pin_subpackage('libecole', exact=True) }}
       run_constraints:
         - ${{ pin_compatible('xsimd') }}
         - ${{ pin_compatible('xtensor') }}
     tests:
+      - package_contents:
+          lib:
+            - ecole
+          include:
+            - ecole/environment/branching.hpp
       - script: test-libecole.sh
         files:
           source:
@@ -51,7 +53,7 @@ outputs:
             - ${{ stdlib("c") }}
             - cmake >=3.15
             - ninja
-            - xsimd ${{ xsimd_version }}
+            - xsimd
             - xtensor
 
   - package:
@@ -68,26 +70,31 @@ outputs:
           then:
             - python
             - cross-python_${{ target_platform }}
-            - pybind11 >=2.7,<3.0
-            - numpy >=1.11,<2.0
-            - scikit-build
+            - pybind11
+            - numpy
+            - scikit-build-core
       host:
         - ${{ pin_subpackage('libecole', exact=True) }}
         - xtensor
-        - xsimd ${{ xsimd_version }}
+        - xsimd
         - python
         - pip
-        - scikit-build
-        - pybind11 >=2.7,<3.0
-        - numpy >=1.11,<2.0
+        - scikit-build-core
+        - pybind11
+        - numpy
         - xtensor-python
       run:
         - python
-        - numpy >=1.11,<2.0
+        - numpy
       run_constraints:
         - ${{ pin_compatible('xtensor-python') }}
         - pyscipopt >=3.0.1
     tests:
+      - package_contents:
+          files:
+            not_exists:
+              - lib/libecole.so
+              - lib/libecole.dylib
       - python:
           imports:
             - ecole

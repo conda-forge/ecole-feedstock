@@ -13,7 +13,7 @@ source:
 
 build:
   number: 0
-  skip: win
+  skip: win or (linux and aarch64 and match(scip, "<10.0"))
 
 outputs:
   - package:

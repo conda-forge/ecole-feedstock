@@ -12,7 +12,7 @@ source:
   sha256: f47f1cbc5bc43c904327f2a5a536367f0ba22f89e73e300b1d20ebac630771db
 
 build:
-  number: 0
+  number: 1
   skip: win or (linux and aarch64 and match(scip, "<10.0"))
 
 outputs:
